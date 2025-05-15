@@ -27,6 +27,7 @@ $comments = $commentsStmt->fetchAll();
 <html>
 <head>
     <title><?php echo htmlspecialchars($post['title']); ?></title>
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial;
@@ -47,40 +48,40 @@ $comments = $commentsStmt->fetchAll();
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="post">
+            <h1><?php echo htmlspecialchars($post['title']); ?></h1>
+            <p class="author">By <?php echo htmlspecialchars($post['username']); ?> on <?php echo $post['created_at']; ?></p>
+            <p><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
+        </div>
 
-<div class="post">
-    <h1><?php echo htmlspecialchars($post['title']); ?></h1>
-    <p class="author">By <?php echo htmlspecialchars($post['username']); ?> on <?php echo $post['created_at']; ?></p>
-    <p><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
-</div>
+        <h2>Comments</h2>
 
-<h2>Comments</h2>
+        <?php foreach ($comments as $comment): ?>
+            <div class="comment">
+                <p class="author"><?php echo htmlspecialchars($comment['username']); ?> said:</p>
+                <p><?php echo nl2br(htmlspecialchars($comment['content'])); ?></p>
+                <p style="color:#aaa; font-size: 0.85em;"><?php echo $comment['created_at']; ?></p>
+            </div>
+        <?php endforeach; ?>
 
-<?php foreach ($comments as $comment): ?>
-    <div class="comment">
-        <p class="author"><?php echo htmlspecialchars($comment['username']); ?> said:</p>
-        <p><?php echo nl2br(htmlspecialchars($comment['content'])); ?></p>
-        <p style="color:#aaa; font-size: 0.85em;"><?php echo $comment['created_at']; ?></p>
+        <h3>Add a Comment</h3>
+        <form method="POST" action="save_comment.php">
+            <input type="hidden" name="post_id" value="<?php echo $post_id; ?>">
+            <label for="user_id">Your Name:</label>
+            <select name="user_id" required>
+                <option value="">Select User</option>
+                <?php
+                $users = $pdo->query("SELECT id, username FROM users");
+                foreach ($users as $user) {
+                    echo "<option value='{$user['id']}'>" . htmlspecialchars($user['username']) . "</option>";
+                }
+                ?>
+            </select>
+            <label for="content">Comment:</label>
+            <textarea name="content" rows="4" required></textarea>
+            <button type="submit">Post Comment</button>
+        </form>
     </div>
-<?php endforeach; ?>
-
-<h3>Add a Comment</h3>
-<form method="POST" action="save_comment.php">
-    <input type="hidden" name="post_id" value="<?php echo $post_id; ?>">
-    <label for="user_id">Your Name:</label>
-    <select name="user_id" required>
-        <option value="">Select User</option>
-        <?php
-        $users = $pdo->query("SELECT id, username FROM users");
-        foreach ($users as $user) {
-            echo "<option value='{$user['id']}'>" . htmlspecialchars($user['username']) . "</option>";
-        }
-        ?>
-    </select>
-    <label for="content">Comment:</label>
-    <textarea name="content" rows="4" required></textarea>
-    <button type="submit">Post Comment</button>
-</form>
-
 </body>
 </html>

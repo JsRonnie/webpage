@@ -1,4 +1,7 @@
-<?php include 'db.php'; ?>
+<?php
+include 'db.php';
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +11,17 @@
 <body>
 <div class="container">
     <h1>All Blog Posts</h1>
-    <a href="add_post.php">➕ Add New Post</a>
+
+    <?php if (isset($_SESSION['username'])): ?>
+        <p>
+            Welcome, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong> |
+            <a href="add_post.php">➕ Add New Post</a> |
+            <a href="logout.php">🚪 Logout</a>
+        </p>
+    <?php else: ?>
+        <p><a href="login.php">🔐 Login</a> or <a href="register.php">📝 Register</a></p>
+    <?php endif; ?>
+
     <hr>
 
     <?php

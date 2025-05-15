@@ -25,29 +25,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="container">
-    <h2>Login</h2>
+    <div class="container">
+        <h2>Login</h2>
 
-    <?php if ($message): ?>
-        <p style="color:red;"><?php echo $message; ?></p>
-    <?php endif; ?>
+        <?php if ($message): ?>
+            <p style="color:red;"><?php echo $message; ?></p>
+        <?php endif; ?>
 
-    <form method="POST" action="login.php">
-        <label>Username:</label>
-        <input type="text" name="username" required>
+        <form method="POST" action="login.php">
+            <label>Username:</label>
+            <input type="text" name="username" required>
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
 
-        <button type="submit">Login</button>
-    </form>
+            <button type="submit">Login</button>
+        </form>
 
-    <p>Don't have an account? <a href="register.php">Register here</a>.</p>
-</div>
+        <p>Don't have an account? <a href="register.php">Register here</a>.</p>
+    </div>
 </body>
+
 </html>
